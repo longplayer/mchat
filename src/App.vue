@@ -1,5 +1,6 @@
 <template>
   <div class="container mx-auto">
+    <button @click="loadDataAgain">LoadData</button>
     <template v-if="isDataLoaded">
       <RouterView />
     </template>
@@ -13,11 +14,16 @@ import { useStore } from 'vuex'
 export default {
   setup() {
     const store = useStore()
-    const isDataLoaded = ref(true)
-    // store.dispatch('wp/fetchPagesData').then(() => {
-    //   isDataLoaded.value = true
-    // })
-    return { isDataLoaded }
+    const isDataLoaded = ref(false)
+    const loadDataAgain = () => {
+      store.dispatch('wp/fetchPagesData').then((r) => {
+        console.log('loadDataAgain', r)
+      })
+    }
+    store.dispatch('wp/fetchPagesData').then(() => {
+      isDataLoaded.value = true
+    })
+    return { isDataLoaded, loadDataAgain }
   },
 }
 </script>

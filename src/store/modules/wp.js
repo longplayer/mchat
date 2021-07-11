@@ -1,4 +1,16 @@
-import serverApi from '../../services/index'
+import { DataApiService } from '../../services/DataApiService'
+import { LocalStorageService } from '../../services/LocalStorageService'
+
+// Mutate data states
+// And save data to localStorage
+const commitAfterFetch = (commit, payload) => {
+  return DataApiService(payload.endpoint)
+    .then(response => {
+      commit(payload.mutation, response.data)
+      LocalStorageService.setItem(payload.key, response.data)
+    })
+}
+
 export const namespaced = true
 export const state = {
   pages: [],
@@ -25,28 +37,52 @@ export const mutations = {
 }
 export const actions = {
   fetchPagesData({ commit }) {
-    return serverApi.getDataFromApi('pages')
-      .then(response => {
-        commit('SET_PAGES', response.data)
+    const KEY = 'wpPages'
+    const data = LocalStorageService.getItem(KEY, [])
+    if (data.length === 0) {
+      return commitAfterFetch(commit, {
+        endpoint: 'pages',
+        mutation: 'SET_PAGES',
+        key: KEY,
       })
+    }
+    return
   },
   fetchPostsData({ commit }) {
-    return serverApi.getDataFromApi('posts')
-      .then(response => {
-        commit('SET_POSTS', response.data)
+    const KEY = 'wpPosts'
+    const data = LocalStorageService.getItem(KEY, [])
+    if (data.length === 0) {
+      return commitAfterFetch(commit, {
+        endpoint: 'posts',
+        mutation: 'SET_POSTS',
+        key: KEY,
       })
+    }
+    return
   },
   fetchCategoriesData({ commit }) {
-    return serverApi.getDataFromApi('categories')
-      .then(response => {
-        commit('SET_CATEGORIES', response.data)
+    const KEY = 'wpCategories'
+    const data = LocalStorageService.getItem(KEY, [])
+    if (data.length === 0) {
+      return commitAfterFetch(commit, {
+        endpoint: 'categories',
+        mutation: 'SET_CATEGORIES',
+        key: KEY,
       })
+    }
+    return
   },
   fetchMediaData({ commit }) {
-    return serverApi.getDataFromApi('media')
-      .then(response => {
-        commit('SET_MEDIA', response.data)
+    const KEY = 'wpMedias'
+    const data = LocalStorageService.getItem(KEY, [])
+    if (data.length === 0) {
+      return commitAfterFetch(commit, {
+        endpoint: 'media',
+        mutation: 'SET_MEDIA',
+        key: KEY,
       })
+    }
+    return
   },
 }
 export const getters = {
