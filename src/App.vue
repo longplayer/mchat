@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto">
-    <button @click="loadDataAgain">LoadData</button>
+    <AppMenu />
     <template v-if="isDataLoaded">
       <RouterView />
     </template>
@@ -10,20 +10,22 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import AppMenu from '@components/AppMenu.vue'
 
 export default {
+  components: { AppMenu },
   setup() {
     const store = useStore()
     const isDataLoaded = ref(false)
-    const loadDataAgain = () => {
-      store.dispatch('wp/fetchPagesData').then((r) => {
-        console.log('loadDataAgain', r)
-      })
-    }
     store.dispatch('wp/fetchPagesData').then(() => {
       isDataLoaded.value = true
+      // fetch other data
+      store.dispatch('wp/fetchCategoriesData')
+      store.dispatch('wp/fetchPostsData')
+      store.dispatch('wp/fetchMediaData')
     })
-    return { isDataLoaded, loadDataAgain }
+    
+    return { isDataLoaded }
   },
 }
 </script>
