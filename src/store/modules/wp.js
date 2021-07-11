@@ -1,3 +1,4 @@
+import serverApi from '../../services/index'
 export const namespaced = true
 export const state = {
   pages: [],
@@ -23,17 +24,29 @@ export const mutations = {
   },
 }
 export const actions = {
-  setPagesData({ commit }, pages) {
-    commit('SET_PAGES', pages)
+  fetchPagesData({ commit }) {
+    return serverApi.getDataFromApi('pages')
+      .then(response => {
+        commit('SET_PAGES', response.data)
+      })
   },
-  setPostsData({ commit }, posts) {
-    commit('SET_POSTS', posts)
+  fetchPostsData({ commit }) {
+    return serverApi.getDataFromApi('posts')
+      .then(response => {
+        commit('SET_POSTS', response.data)
+      })
   },
-  setCategoriesData({ commit }, categories) {
-    commit('SET_CATEGORIES', categories)
+  fetchCategoriesData({ commit }) {
+    return serverApi.getDataFromApi('categories')
+      .then(response => {
+        commit('SET_CATEGORIES', response.data)
+      })
   },
-  setMediaData({ commit }, media) {
-    commit('SET_MEDIA', media)
+  fetchMediaData({ commit }) {
+    return serverApi.getDataFromApi('media')
+      .then(response => {
+        commit('SET_MEDIA', response.data)
+      })
   },
 }
 export const getters = {
