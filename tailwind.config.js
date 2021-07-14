@@ -33,7 +33,33 @@ module.exports = {
           '800': '#004d7b', 
           '900': '#003f64'
         },
-      }
+      },
+      fontFamily: {
+        serif: ['Vollkorn', 'sans-serif'],
+        sans: ['Work Sans', 'sans'],
+      },
+      spacing: {
+        '24': '6rem',
+        '32': '8rem',
+      },
+      fontSize: {
+        base: ['1rem', {
+          lineHeight: '1.5rem',
+          letterSpacing: '1px'
+        }],
+        '2xl': ['1.5rem', {
+          lineHeight: '2.25rem',
+          letterSpacing: '1px'
+        }],
+        '5xl': ['3rem', {
+          lineHeight: '3.5rem',
+          letterSpacing: '0.4px'
+        }],
+        '6xl': ['3.5rem', {
+          lineHeight: '4rem',
+          letterSpacing: '1.6px'
+        }]
+      },
     },
   },
   variants: {
