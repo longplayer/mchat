@@ -1,7 +1,15 @@
 module.exports = {
-  extends: ['plugin:vue/vue3-essential', 'prettier'],
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: ['plugin:vue/base', 'plugin:vue/essential', 'prettier'],
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: 'module',
+  },
+  plugins: ['vue'],
   rules: {
-    // override/add rules settings here, such as:
     'vue/no-unused-vars': 'error',
     'vue/no-multiple-template-root': 'off',
   },
