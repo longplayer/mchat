@@ -1,6 +1,12 @@
 <template>
   <div class="container testycool pb-10">
     <h1>Welcome to the Testycool Page</h1>
+    <hr class="my-10">
+    <CatLogoLines/>
+    <hr class="my-10">
+    <CatLogoColored/>
+    <hr class="my-10">
+    <CatLogoAnimated/>
     <button class="btn btn__primary">Button</button>
     <br><br>
     <button class="btn btn__secondary">Button</button>
@@ -15,3 +21,16 @@
     <hr class="my-10">
   </div>
 </template>
+
+<script>
+import CatLogoAnimated from '@components/CatLogoAnimated.vue'
+import CatLogoColored from '@components/CatLogoColored.vue'
+import CatLogoLines from '@components/CatLogoLines.vue'
+export default {
+  components: {
+    CatLogoAnimated,
+    CatLogoColored,
+    CatLogoLines,
+  }
+}
+</script>

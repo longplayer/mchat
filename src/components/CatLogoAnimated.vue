@@ -137,6 +137,7 @@ export default {
 <style scoped lang="postcss">
 .cat-container {
   @apply mx-auto;
+  & svg { @apply mx-auto; }
 }
 
 /* Logo sizes */
@@ -213,7 +214,7 @@ svg {
 .mc-sign path {
   transition: 600ms ease-in opacity 2000ms;
 }
-.mc-blue.is-end path,
+/* .mc-blue.is-end path, */
 .mc-white.is-end path,
 .mc-yellow.is-end path,
 .mc-eyes.is-end path,
