@@ -1,5 +1,14 @@
 <template>
-  <nav>
+  <nav class="main-navigation">
+    <router-link class="w-full" :to="{ name: 'home' }">
+      <CatLogoLines />
+    </router-link>
+
+    <BaseButton class="flex flex-wrap items-center mx-auto mb-6 text-base" type="none">
+      <BaseIcon class="mr-2" name="menu-line"/>
+      <span class="label">Menu</span>
+    </BaseButton>
+
     <div class="menu-item">
       <router-link :to="{name: 'home'}">
         Accueil
@@ -10,27 +19,87 @@
         {{ page.title.rendered }}
       </router-link>
     </div>
+    <div class="menu-item">
+      <router-link :to="{name: 'playground'}">
+        test
+      </router-link>
+    </div>
   </nav>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
-
-// These values correspond to real data from WP
-// This list also define order of the menu items
-const allowedSlugs = ['actus', 'expos', 'wall', 'shop', 'contact', 'panier']
+import CatLogoLines from '@components/CatLogoLines.vue'
 
 export default {
+  components: { CatLogoLines },
     setup() {
       const store = useStore()
-      const pages = ref([])
-      const dataPages = store.getters['wp/getPagesData']
-      onMounted(() => {
-        pages.value = allowedSlugs.map(slug => dataPages.filter(page => page.slug === slug)[0])
-      })
-
+      const pages = computed(() => store.getters['wp/getNavigationData'])
       return { pages }
     },
 }
 </script>
+
+<style lang="postcss" scoped>
+nav {
+  display: none;
+
+  @apply fixed w-full bg-white text-center;
+
+  transform: translate(2rem, 2rem);
+  transition: all 360ms ease-in-out;
+
+  @screen md {
+    max-width: 320px; /* 200px when closed */
+  }
+  @screen lg {
+    transform: translate(4rem, 4rem);
+  }
+
+  & a {
+    @apply inline-block w-full py-4;
+  }
+
+  & .label {
+    @apply text-base lg:text-2xl;
+  }
+
+  & .menu-item {
+  }
+
+  &.main-navigation {
+
+    &::before,
+    &::after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    &::before {
+      top: 0;
+      left: 0;
+      border-top: .25rem solid var(--color-primary);
+      border-left: .25rem solid var(--color-primary);
+    }
+
+    &::after {
+      bottom: 0;
+      right: 0;
+      border-bottom: .25rem solid var(--color-primary);
+      border-right: .25rem solid var(--color-primary);
+      
+    }
+
+  }
+
+  & .cat-container {
+    @apply py-12;
+  }
+
+}
+</style>

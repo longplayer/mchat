@@ -8,18 +8,24 @@ const commitAfterFetch = (commit, payload) => {
     .then(response => {
       commit(payload.mutation, response.data)
       LocalStorageService.setItem(payload.key, response.data)
+      return response
     })
 }
 
 export const namespaced = true
 export const state = {
+  // These values correspond to real data from WP
+  // This list also define order of the menu items
+  allowedSlugs: ['actus', 'expos', 'wall', 'contact'],
+  // data from WP Rest API
+  categories: [],
+  comments: [],
+  media: [],
+  navigation: [],
   pages: [],
   posts: [],
-  categories: [],
-  media: [],
-  users: [],
   taxonomie: [],
-  comments: [],
+  users: [],
 }
 export const mutations = {
   SET_PAGES(state, pages) {
@@ -33,6 +39,9 @@ export const mutations = {
   },
   SET_MEDIA(state, media) {
     state.media = media
+  },
+  SET_NAVIGATION(state, data) {
+    state.navigation = data
   },
 }
 export const actions = {
@@ -84,10 +93,14 @@ export const actions = {
     }
     return
   },
+  saveNavigation({ commit }, data) {
+    commit('SET_NAVIGATION', data)
+  }
 }
 export const getters = {
   getPagesData: (state) => state.pages,
   getPostsData: (state) => state.posts,
   getCategoriesData: (state) => state.categories,
   getMediaData: (state) => state.media,
+  getNavigationData: (state) => state.navigation,
 }

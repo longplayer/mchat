@@ -1,30 +1,43 @@
 <template>
-  <div class="container mx-auto">
-    <AppMenu />
+  <AppMenu />
+  <main class="">
     <template v-if="isDataLoaded">
       <RouterView />
     </template>
-  </div>
+  </main>
+  <TheFooter />
 </template>
 
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 import AppMenu from '@components/AppMenu.vue'
+import TheFooter from '@components/TheFooter.vue'
 
 export default {
-  components: { AppMenu },
+  components: { AppMenu, TheFooter },
   setup() {
     const store = useStore()
     const isDataLoaded = ref(false)
+    const pages = ref([])
     store.dispatch('wp/fetchPagesData').then(() => {
+      // Now <router-view> can be mounted
       isDataLoaded.value = true
-      // fetch other data
-      store.dispatch('wp/fetchCategoriesData')
-      store.dispatch('wp/fetchPostsData')
-      store.dispatch('wp/fetchMediaData')
+
+      // keep only allowed pages
+      pages.value = store.state.wp.allowedSlugs
+        .map(slug => store.state.wp.pages
+          .filter(page => page.slug === slug)[0])
+
+      // Save to state.wp.navigation
+      store.dispatch('wp/saveNavigation', pages.value)
     })
-    
+
+    // fetch other data
+    store.dispatch('wp/fetchCategoriesData')
+    store.dispatch('wp/fetchPostsData')
+    store.dispatch('wp/fetchMediaData')
+
     return { isDataLoaded }
   },
 }
@@ -32,11 +45,9 @@ export default {
 
 <style lang="postcss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+  @apply w-full h-full top-0 left-0 p-0 m-0 relative;
 }
 </style>
