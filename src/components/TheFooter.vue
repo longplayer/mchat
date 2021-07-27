@@ -33,7 +33,7 @@ export default {
 
 <style lang="postcss" scoped>
 footer {
-  @apply fixed bottom-0 flex w-full p-8 pr-36 bg-primary border-t-4 border-secondary;
+  @apply relative bottom-0 flex w-full h-32 p-8 pr-36 bg-primary border-t-4 border-secondary;
 
   & li {
     @apply inline-block;
@@ -54,7 +54,7 @@ footer {
 
   & .footer-navigation,
   & .footer-legal {
-    @apply flex-auto;
+    @apply flex-auto m-auto;
   }
 
   & .footer-legal {
