@@ -1,7 +1,7 @@
 <template>
   <component
     :is="tag"
-    :class="[buttonClass, typeClass]"
+    :class="[buttonClass, variantClass]"
     v-bind="$attrs"
   >
     <slot/>
@@ -11,7 +11,7 @@
 <script>
 import { computed } from 'vue'
 const availableTags = ['button', 'a', 'router-link']
-const availableTypes = ['primary', 'secondary', 'none']
+const availableVariants = ['primary', 'secondary', 'none']
 export default {
   inheritAttrs: false,
   props: {
@@ -23,18 +23,18 @@ export default {
       default: 'button',
       validator: (value) => availableTags.includes(value)
     },
-    type: {
+    variant: {
       type: String,
       default: 'primary',
-      validator: (value) => availableTypes.includes(value)
+      validator: (value) => availableVariants.includes(value)
     }
   },
   setup (props) {
-    const typeClass = computed(() => {
-      if (props.type === 'none') return ''
-      else return `btn btn__${props.type}`
+    const variantClass = computed(() => {
+      if (props.variant === 'none') return ''
+      else return `btn btn__${props.variant}`
     })
-    return { typeClass }
+    return { variantClass }
   }
 }
 </script>
