@@ -35,6 +35,10 @@
     max-width: 1024px;
   }
 
+  section.container {
+    @apply min-h-screen;
+  }
+
   .glow-fx {
     &:hover {
       box-shadow: 0 0 4px rgb(255 182 0 / 50%),
