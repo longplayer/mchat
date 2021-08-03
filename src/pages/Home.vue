@@ -22,33 +22,25 @@
   </section>
   <section class="news container">
     <div class="section--inner">
-      <h1>Actus</h1>
-      <ul>
-        <template v-if="newsPageData.length">
-          <li v-for="post in newsPageData" :key="post.id">
-            <h2>{{ post.title.rendered }}</h2>
-            <div class="item-content" v-html="post.excerpt.rendered"></div>
-          </li>
-        </template>
-      </ul>
+      <PostList
+        title="Actus"
+        :dataSource="newsPageData"
+      />
     </div>
   </section>
   <section class="separator">
     <SeparatorImage
       :image="separatorImages[2]"
       variant="secondary"
+      placement="diagonale"
     />
   </section>
   <section class="events container">
     <div class="section--inner">
-      <h1>Expos</h1>
-      <ul>
-        <template v-if="eventPageData.length">
-          <li v-for="post in eventPageData" :key="post.id">
-            {{ post.title.rendered }}
-          </li>
-        </template>
-      </ul>
+      <PostList
+        title="Expos"
+        :dataSource="eventPageData"
+      />
     </div>
   </section>
   <section class="separator">
@@ -57,7 +49,6 @@
       variant="primary"
     />
   </section>
-  <br>
 </template>
 
 <script>
@@ -66,11 +57,13 @@ import { useStore } from 'vuex'
 import he from 'he'
 import CatLogoAnimated from '@components/CatLogoAnimated.vue'
 import SeparatorImage from '@components/SeparatorImage.vue'
+import PostList from '@components/PostList.vue'
 
 export default {
   components: {
     CatLogoAnimated,
     SeparatorImage,
+    PostList
   },
 
   setup() {
@@ -154,7 +147,9 @@ export default {
   /* new global (move to index.css) */
   section.container {
 
-    @apply flex flex-wrap justify-center items-center py-16 px-8;
+    @apply flex flex-wrap justify-center items-center
+    py-40 px-8
+    lg:py-80 lg:px-0;
     
     .section--inner {
       @apply flex-auto m-auto max-w-full;
@@ -169,17 +164,6 @@ export default {
 
       li {
         @apply mb-12;
-      }
-    }
-
-    li {
-
-      h2 {
-        @apply mb-6 pb-6 border-b border-gray-600;
-      }
-
-      p {
-        @apply truncate;
       }
     }
   }
