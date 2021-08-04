@@ -5,3 +5,8 @@ dist-ssr
 *.local
 *-lock.json
 .env
+_*/
+
+# temp disabling storybook tracking
+.storybook/
+src/stories/
