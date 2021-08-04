@@ -4,7 +4,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "reinstall": "rm package-lock.json && rm -rf node_modules/ && npm install",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -16,9 +19,15 @@
     "walkway.js": "^0.0.9"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@storybook/addon-actions": "^6.3.6",
+    "@storybook/addon-essentials": "^6.3.6",
+    "@storybook/addon-links": "^6.3.6",
+    "@storybook/vue3": "^6.3.6",
     "@vitejs/plugin-vue": "^1.2.4",
     "@vue/compiler-sfc": "^3.0.5",
     "autoprefixer": "^10.2.6",
+    "babel-loader": "^8.2.2",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-vue": "^7.13.0",
@@ -27,6 +36,7 @@
     "prettier": "^2.3.2",
     "tailwindcss": "^2.2.4",
     "vite": "^2.4.0",
-    "vite-aliases": "^0.8.2"
+    "vite-aliases": "^0.8.2",
+    "vue-loader": "^16.4.1"
   }
 }
