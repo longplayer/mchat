@@ -8,7 +8,9 @@ export const registerVueComponents = (vueApp, components) => {
     const componentName = path.split('/').pop().replace(/\.\w+$/, '')
   
     // Register component on this Vue instance
-    console.log(`resgister component: ${componentName}`)
     vueApp.component(componentName, definition.default)
   })
 }
+
+// HE: https://github.com/mathiasbynens/he
+// https://gist.github.com/CatTail/4174511

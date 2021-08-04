@@ -8,7 +8,8 @@ const commitAfterFetch = (commit, payload) => {
     .then(response => {
       commit(payload.mutation, response.data)
       LocalStorageService.setItem(payload.key, response.data)
-      return response
+      // console.log(response.data)
+      return response.data
     })
 }
 
@@ -16,7 +17,7 @@ export const namespaced = true
 export const state = {
   // These values correspond to real data from WP
   // This list also define order of the menu items
-  allowedSlugs: ['actus', 'expos', 'wall', 'contact'],
+  allowedSlugs: ['accueil', 'actus', 'expos', 'wall', 'contact'],
   // data from WP Rest API
   categories: [],
   comments: [],
@@ -55,7 +56,7 @@ export const actions = {
         key: KEY,
       })
     }
-    return
+    return data
   },
   fetchPostsData({ commit }) {
     const KEY = 'wpPosts'
@@ -67,7 +68,7 @@ export const actions = {
         key: KEY,
       })
     }
-    return
+    return data
   },
   fetchCategoriesData({ commit }) {
     const KEY = 'wpCategories'
@@ -79,7 +80,7 @@ export const actions = {
         key: KEY,
       })
     }
-    return
+    return data
   },
   fetchMediaData({ commit }) {
     const KEY = 'wpMedias'
@@ -91,7 +92,19 @@ export const actions = {
         key: KEY,
       })
     }
-    return
+    return data
+  },
+  fetchPostsByCategory({ commit }, categoryId) {
+    const KEY = 'wpPostCat-' + categoryId
+    const data = LocalStorageService.getItem(KEY, [])
+    if (data.length === 0) {
+      return commitAfterFetch(commit, {
+        endpoint: 'posts?categories=' + categoryId,
+        mutation: 'SET_MEDIA',
+        key: KEY,
+      })
+    }
+    return data
   },
   saveNavigation({ commit }, data) {
     commit('SET_NAVIGATION', data)
