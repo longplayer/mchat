@@ -7,7 +7,7 @@
       </BaseButton>
     </div>
   </section>
-  <section class="intro container">
+  <section id="accueil" class="intro container">
     <div
       ref="introElement"
       v-html="introData"
@@ -20,7 +20,7 @@
       variant="primary"
     />
   </section>
-  <section class="news container">
+  <section id="actus" class="news container">
     <div class="section--inner">
       <PostList
         title="Actus"
@@ -35,7 +35,7 @@
       placement="diagonale"
     />
   </section>
-  <section class="events container">
+  <section id="expos" class="events container">
     <div class="section--inner">
       <PostList
         title="Expos"
@@ -47,7 +47,16 @@
     <SeparatorImage
       :image="separatorImages[0]"
       variant="primary"
-    />
+    />  
+  </section>
+  <section id="wall" class="wall container">
+    <div class="section--inner">
+    </div>
+  </section>
+  <section id="contact" class="contact container">
+    <div class="section--inner">
+      <h1>Contact</h1>
+    </div>
   </section>
 </template>
 

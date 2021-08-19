@@ -10,7 +10,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
-    meta: { title: store.state.appName }
+    meta: { title: store.state.appName },
   },
   {
     path: '/testycool',
@@ -22,6 +22,17 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
+  scrollBehavior: function (to, from, savedPosition) {
+    // console.log(to, from, savedPosition)
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth',
+      }
+    } else {
+      return { el: '#app' }
+    }
+  },
   routes,
 })
 

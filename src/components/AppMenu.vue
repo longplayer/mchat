@@ -9,16 +9,13 @@
       <span class="label">Menu</span>
     </BaseButton>
 
-    <div class="menu-item">
-      <router-link :to="{name: 'home'}">
-        Accueil
-      </router-link>
-    </div>
     <div class="menu-item" v-for="page in pages" :key="page.id">
-      <router-link :to="page.slug">
+      <!-- <router-link :to="`#${page.slug}`"> -->
+      <router-link :to="{ name: 'home', hash: '#' + page.slug }">
         {{ page.title.rendered }}
       </router-link>
     </div>
+
     <div class="menu-item">
       <router-link :to="{name: 'playground'}">
         test
@@ -37,17 +34,20 @@ export default {
     setup() {
       const store = useStore()
       const pages = computed(() => store.getters['wp/getNavigationData'])
-      return { pages }
+      function detectScroll() {
+        console.log('scroll listener activated')
+      }
+      return { pages, detectScroll }
     },
 }
 </script>
 
 <style lang="postcss" scoped>
 nav {
-  display: none;
+  /* display: none; */
 
   @apply fixed w-full bg-white text-center;
-
+  z-index: 10;
   transform: translate(2rem, 2rem);
   transition: all 360ms ease-in-out;
 
