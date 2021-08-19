@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './index.css'
+import PageScrollDirective from './plugins/PagScrollDirective'
 
 const app = createApp(App)
 
@@ -11,4 +12,8 @@ const app = createApp(App)
 const baseComponents = import.meta.globEager(`./components/Base*.vue`)
 registerVueComponents(app, baseComponents)
 
-app.use(router).use(store).mount('#app')
+app
+  .use(router)
+  .use(store)
+  .use(PageScrollDirective)
+  .mount('#app')

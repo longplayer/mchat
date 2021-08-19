@@ -1,5 +1,5 @@
 <template>
-  <nav class="main-navigation">
+  <nav v-page-scroll="detectScroll" class="main-navigation">
     <router-link class="w-full" :to="{ name: 'home' }">
       <CatLogoLines />
     </router-link>
