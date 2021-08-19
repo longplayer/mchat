@@ -4,7 +4,7 @@
     :class="[buttonClass, variantClass]"
     v-bind="$attrs"
   >
-    <slot/>
+    <slot name="default" />
   </component>
 </template>
 
@@ -73,14 +73,13 @@ export default {
 
     &:hover,
     &:active {
-      @apply text-white bg-yellow-900 border-gray-700;
+      @apply text-yellow-400 bg-gray-700;
     }
 
     &:focus-visible {
-      @apply text-white bg-yellow-900 border-gray-700;
-
+      @apply text-yellow-400 bg-gray-700;
       &::before {
-        outline-color: #fff;
+        outline-color: currentColor;
       }
     }
   }
@@ -101,129 +100,4 @@ export default {
     }
   }
 }
-
-
-
-/* buttons variations */
-/* .btn {
-  @apply
-  inline-flex items-center justify-between
-  p-4 text-center text-gray-900 bg-gray-200
-  border-0 rounded-md;
-  white-space: nowrap;
-  transition: all 0.2s linear;
-}
- */
-/* sates */
-/* .btn:hover {
-  @apply text-gray-100 bg-green-700;
-  transform: scale(1.02);
-  box-shadow: 0 7px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.btn:active {
-  transform: scale(1);
-  box-shadow: none;
-}
-.btn:focus {
-  @apply outline-none;
-}
-.btn:disabled {
-  transform: scale(1);
-  box-shadow: none;
-} */
-
-/* multiples buttons */
-/* .btn + .btn {
-  margin-left: 1em;
-} */
-
-/* coloration */
-/* .btn--green {
-  @apply text-gray-100 bg-green-600 hover:bg-green-900;
-}
-
-.btn--red {
-  @apply text-gray-100 bg-red-600 hover:bg-red-900;
-}
-
-.btn--blue {
-  @apply text-gray-100 bg-blue-600 hover:bg-blue-900;
-}
-
-.btn--gray-100 {
-  @apply text-gray-100 bg-gray-100 hover:bg-gray-900;
-}
-
-.btn--sneaked {
-  @apply p-0 bg-none rounded-none;
-  font-weight: inherit;
-  background-color: inherit;
-  color: inherit;
-  font-size: inherit;
-  letter-spacing: inherit;
-  font-style: inherit;
-  text-transform: inherit;
-  transition: none;
-}
-
-.btn--menu {
-  border-radius: 0;
-  transition: none;
-  color: inherit;
-  background-color: inherit;
-}
-
-.not--btn {
-  padding: inherit;
-  height: inherit;
-  width: inherit;
-  border-radius: inherit;
-  background-color: inherit;
-  transition: none;
-}
-
-.not--btn:hover {
-  box-shadow: none;
-  background-color: inherit;
-}
-
-.btn--menu:hover {
-  box-shadow: none;
-}
-
-.btn--sneaked:hover {
-  background-color: inherit;
-  color: inherit;
-  box-shadow: none;
-  transform: none;
-} */
-
-/* modifiers */
-/* .btn.-fill-gradient {
-  background: linear-gradient(to right, #16c0b0, #84cf6a);
-  color: #ffffff;
-}
-
-.btn.-icon-right {
-  text-align: left;
-  padding: 0 20px;
-}
-
-.btn.-icon-right > .icon {
-  margin-left: 10px;
-}
-
-.btn.-icon-left {
-  text-align: right;
-  padding: 0 20px;
-}
-
-.btn.-icon-left > .icon {
-  margin-right: 10px;
-}
-
-.btn.-icon-center {
-  padding: 0 20px;
-} */
-
 </style>
