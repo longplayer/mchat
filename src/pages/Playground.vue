@@ -2,6 +2,9 @@
   <div class="container testycool pb-10 min-h-screen">
     <h1>Welcome to the Testycool Page</h1>
     <div class="playground">
+
+      <HelloBro colorType='secondary' />
+
       <div class="demo">
         <div class="demo__content">
           <div class="demo__elems">
@@ -26,7 +29,10 @@
 </template>
 
 <script>
-export default {}
+import HelloBro from '@components/HelloBro.vue'
+export default {
+  components: { HelloBro }
+}
 </script>
 
 <style lang="postcss" scoped>
