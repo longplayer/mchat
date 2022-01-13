@@ -5,19 +5,15 @@
       <div class="rationer">
         <figure class="rationer-inside">
           <img
+            class="separator__image"
             :src="image"
             alt="">
           </figure>
       </div>
     </template>
     <template v-if="placement === 'diagonale'">
-      <div class="shape-wrapper">
-        <div id="rhombus">
-          <div class="shape"></div>
-          <div class="content">
-            <img :src="image">
-          </div>
-        </div>
+      <div class="separator__inner">
+        <img class="separator__image" :src="image">
       </div>
     </template>
   </div>
@@ -45,7 +41,7 @@ export default {
     }
   },
   setup (props) {
-    const separatorClass = 'separator__image';
+    const separatorClass = 'separator__container';
     const placementClass = computed(() => {
       if (props.variant === 'none') return ''
       else return `separator__${props.placement}`
@@ -61,98 +57,44 @@ export default {
 </script>
 
 <style lang="postcss">
-.separator__image {
+.separator__container {
 
-  /* thematic rules */
-  &.separator__primary.separator__fullwidth {
-    @apply border-primary;
-    border-width: 1rem 0;
+  @apply w-full overflow-hidden;
+  border-width: 1.5rem;
+  @screen lg { border-width: 2.25rem; }
+  @screen xl { border-width: 3rem; }
 
-    @screen lg { border-width: 2rem 0; }
-    @screen xl { border-width: 3rem 0; }
-  }
-  &.separator__secondary.separator__fullwidth {
-    @apply border-secondary;
-  }
-
-  &.separator__primary.separator__diagonale {
-    .shape {
-      @apply text-primary;
-    }
-  }
-  &.separator__secondary.separator__diagonale {
-    .shape {
-      @apply text-secondary;
-    }
-  }
-
-  /* common rules */
-  &.separator__fullwidth {
-    
-    img {
+  /* image cover */
+  .separator__image {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
+  }
+
+  /* theme colors */
+  &.separator__primary { @apply border-primary; }
+  &.separator__secondary { @apply border-secondary; }
+
+  /* specific rules */
+  &.separator__fullwidth {
+    border-left-width: 0;
+    border-right-width: 0;
   }
 
   &.separator__diagonale {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    margin: 0 auto;
+    transform: rotate(45deg);
+    width: 60%;
+    @screen lg { width: 50%; }
+    @screen xl { width: 40%; }
 
-    /* @apply bg-green-100; */
-
-    .shape-wrapper {
-
-      box-sizing: border-box;
-      width: 80vh;
-      padding: 0;
-      background-color: inherit;
-      position: relative;
-      margin: 10vh auto;
-    
-      #rhombus {
-
-        width: 100%;
-        background-color: inherit;
-        
-        .shape {
-          width: 0;
-          height: 0;
-          border: 40vh solid transparent;
-          border-bottom-color: currentColor;
-          position: relative;
-          top: -40vh;
-          
-          &:after {
-            content: "";
-            position: absolute;
-            left: -40vh;
-            top: 40vh;
-            width: 0;
-            height: 0;
-            border: 40vh solid transparent;
-            border-top-color: currentColor;
-          }
-        }
-        
-        .content {
-          display: block;
-          position: absolute;
-          overflow: hidden;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: transparent;
-          
-          img {
-            position: relative;
-            width: 80%;
-            height: 80%;
-            transform: translate(12.5%, 12.5%);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-          }
-        }
-      }
+    .separator__inner {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-45deg) scale(1.5);
     }
   }
 }
