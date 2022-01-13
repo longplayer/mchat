@@ -1,6 +1,10 @@
+import debounce from "lodash/debounce"
+
 const PageScrollDirective = {
   mounted (el, binding) {
-    el.__PageScroll__ = binding.value
+    el.__PageScroll__ = debounce(() => {
+      binding.value()
+    }, 200)
     document.addEventListener('scroll', el.__PageScroll__)
   },
   unmounted (el) {
