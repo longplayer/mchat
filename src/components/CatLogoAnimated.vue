@@ -137,7 +137,7 @@ export default {
 <style scoped lang="postcss">
 .cat-container {
   @apply mx-auto;
-  & svg { @apply mx-auto; }
+  & svg { @apply mx-auto max-w-full; }
 }
 
 /* Logo sizes */
