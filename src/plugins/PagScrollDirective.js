@@ -1,3 +1,4 @@
+// https://v3.vuejs.org/guide/plugins.html#writing-a-plugin
 import debounce from "lodash/debounce"
 
 const PageScrollDirective = {
