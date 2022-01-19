@@ -8,7 +8,7 @@
       :key="index"
       class="grid__item"
       tabindex="0"
-      @click="openViewer({ image, index })"
+      @click="showLightbox(index)"
     >
       <figure class="grid__fig">
         <img class="grid__image" :src="image.thumb" :alt="image.alt" />
@@ -21,33 +21,22 @@
     </div>
 
     <!-- https://v3.vuejs.org/api/built-in-components.html#teleport -->
-    <teleport v-if="isModalOpen === true" to="body">
-      <div class="viewer__modal" @click="closeViewer">
-        <button class="prev" @click.stop="goPrev(selectedImage.index)">prev</button>
-        <button class="next" @click.stop="goNext(selectedImage.index)">next</button>
-        <figure class="viewer__fig">
-          <div class="viewer__fig--inner">
-            <img
-              class="viewer__image"
-              :src="selectedImage.src"
-              :alt="selectedImage.alt"
-              :data-index="selectedImage.index"
-            />
-          </div>
-          <caption class="viewer__caption">
-            {{
-              selectedImage.alt
-            }}
-          </caption>
-        </figure>
-      </div>
+    <teleport to=".modal-portal">
+      <!-- https://github.com/am283721/vue-my-photos/blob/master/src/lightbox.vue -->
+      <base-lightbox 
+        ref="wallElement"
+        :images="images"
+        :close-on-backdrop-click=true
+        :current-image-index="currentImageIndex"
+        @on-lightbox-close="onLightboxClose"
+        @on-lightbox-change="onLightboxChange"
+      />
     </teleport>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import bodyOverflow from '@helpers/bodyOverflow.js'
+import { computed, ref, onBeforeUpdate, onMounted, onBeforeMount } from 'vue'
 
 export default {
   props: {
@@ -61,71 +50,60 @@ export default {
   },
   setup(props) {
     const wallElement = ref(null)
-    const isModalOpen = ref(false)
-    const selectedImage = ref({})
-    const currentIndex = ref(0)
+    // new params
+    const images = ref(updateImagesData(props.dataSource)) // payload
+    const currentImageIndex = ref(-1)
+    // const thumbnailDir = ref(null) // photoDir
+    // const galleryFilter = ref(null) // 'all'
+    // const filteredImages = computed(() => {
+    //   if(galleryFilter.value !== null) {
+    //     if (galleryFilter.value === 'all') {
+    //       return images.value;
+    //     } else {
+    //       return images.value.filter(image => image.filter === galleryFilter.value);
+    //     }
+    //   }
+    //   return false
+    // })
 
-    function updateSelectedImage(payload) {
-      return {
-        src: payload.image.src,
-        alt: payload.image.alt,
-        index: payload.index,
-      }
+    function showLightbox(imageIndex) {
+      currentImageIndex.value = imageIndex;
     }
 
-    function openViewer(payload) {
-      selectedImage.value = updateSelectedImage(payload)
-      isModalOpen.value = true
-      bodyOverflow(true)
+    function onLightboxClose(imageIndex) {
+      currentImageIndex.value = imageIndex;
     }
 
-    function closeViewer(ev) {
-      console.log('CLOSE MODAL', ev.target.tagName)
-      const allowedTag = ['IMG', 'CAPTION']
-      if (allowedTag.includes(ev.target.tagName)) return
-
-      isModalOpen.value = false
-      bodyOverflow(false)
+    function onLightboxChange(image) {
+      // console.log("On Lightbox Change", image);
     }
 
-    function goNext(index) {
-      const newIndex = index === props.dataSource.length - 1 ? 0 : index + 1
-      openViewer({
-        index: newIndex,
-        image: { ...props.dataSource[newIndex] },
-      })
-    }
-    function goPrev(index) {
-      const newIndex = index === 0 ? props.dataSource.length - 1 : index - 1
-      openViewer({
-        index: newIndex,
-        image: { ...props.dataSource[newIndex] },
-      })
-    }
-
-    function searchTagOnString(string) {
-      const imgPattern = /<img [^>]*src="[^"]*"[^>]*>/gm
-      const hrefPattern = /<img.*?src="(.*?)"/ // href & alt patterns could be improved
-      const altPattern = /<img.*?alt="(.*?)"/
-
-      // 1 get only img tags
-      let imgCollection = string.match(imgPattern)
-      return imgCollection.map((img) => {
+    function updateImagesData(source) {
+      // return array of objects
+      return source.map((data, index) => {
         return {
-          src: img.match(hrefPattern)[1],
-          alt: img.match(altPattern)[1],
+          ...data,
+          name: data.alt,
+          filter: '',
+          index,
         }
-      })
+      });
     }
+
+    // function updateFilter(filterName) {
+    //   galleryFilter.value = filterName;
+    // }
 
     return {
       wallElement,
-      isModalOpen,
-      openViewer,
-      closeViewer,
-      selectedImage,
-      goNext,
-      goPrev,
+      showLightbox,
+      onLightboxClose,
+      onLightboxChange,
+      images,
+      currentImageIndex,
+      // thumbnailDir,
+      // updateFilter,
+      // filteredImages,
     }
   },
 }
@@ -235,29 +213,34 @@ button {
   background-color: rgba(0, 0, 0, 0.8);
   @apply flex justify-center items-center overflow-hidden;
 
-  .viewer__fig {
+  .viewer__container {
     width: 80%;
     height: 80%;
-    @apply m-auto;
+    @apply relative overflow-hidden;
 
-    &--inner {
-      width: 100%;
-      height: 100%;
+    .viewer__fig {
+      @apply m-auto absolute;
 
-      .viewer__image {
-        object-fit: contain;
-        width: auto;
+      &--inner {
+        width: 100%;
         height: 100%;
-        margin: auto;
+
+        .viewer__image {
+          object-fit: contain;
+          width: auto;
+          height: 100%;
+          margin: auto;
+        }
       }
+
+      /* .viewer__caption {
+        width: 100%;
+        height: 10%;
+        font-weight: 700;
+        @apply absolute bottom-0 left-0 flex justify-center items-center m-auto text-gray-50;
+      } */
     }
 
-    .viewer__caption {
-      width: 100%;
-      height: 10%;
-      font-weight: 700;
-      @apply absolute bottom-0 left-0 flex justify-center items-center m-auto text-gray-50;
-    }
   }
 }
 </style>
