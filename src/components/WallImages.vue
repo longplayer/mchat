@@ -21,8 +21,8 @@
     </div>
 
     <!-- https://v3.vuejs.org/api/built-in-components.html#teleport -->
+    <!-- https://github.com/am283721/vue-my-photos/blob/master/src/lightbox.vue -->
     <teleport to=".modal-portal">
-      <!-- https://github.com/am283721/vue-my-photos/blob/master/src/lightbox.vue -->
       <base-lightbox 
         ref="wallElement"
         :images="images"
@@ -37,6 +37,7 @@
 
 <script>
 import { computed, ref, onBeforeUpdate, onMounted, onBeforeMount } from 'vue'
+import bodyOverflow from '@helpers/bodyOverflow.js'
 
 export default {
   props: {
@@ -50,33 +51,20 @@ export default {
   },
   setup(props) {
     const wallElement = ref(null)
-    // new params
-    const images = ref(updateImagesData(props.dataSource)) // payload
+    const images = ref(updateImagesData(props.dataSource))
     const currentImageIndex = ref(-1)
-    // const thumbnailDir = ref(null) // photoDir
-    // const galleryFilter = ref(null) // 'all'
-    // const filteredImages = computed(() => {
-    //   if(galleryFilter.value !== null) {
-    //     if (galleryFilter.value === 'all') {
-    //       return images.value;
-    //     } else {
-    //       return images.value.filter(image => image.filter === galleryFilter.value);
-    //     }
-    //   }
-    //   return false
-    // })
 
     function showLightbox(imageIndex) {
       currentImageIndex.value = imageIndex;
+      bodyOverflow(true)
     }
 
     function onLightboxClose(imageIndex) {
       currentImageIndex.value = imageIndex;
+      bodyOverflow(false)
     }
 
-    function onLightboxChange(image) {
-      // console.log("On Lightbox Change", image);
-    }
+    function onLightboxChange(image) {}
 
     function updateImagesData(source) {
       // return array of objects
@@ -90,10 +78,6 @@ export default {
       });
     }
 
-    // function updateFilter(filterName) {
-    //   galleryFilter.value = filterName;
-    // }
-
     return {
       wallElement,
       showLightbox,
@@ -101,9 +85,6 @@ export default {
       onLightboxChange,
       images,
       currentImageIndex,
-      // thumbnailDir,
-      // updateFilter,
-      // filteredImages,
     }
   },
 }
