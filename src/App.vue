@@ -1,13 +1,13 @@
 <template>
   <AppMenu />
-  <main class="">
+  <main class="page">
     <RouterView v-show="isDataLoaded" />
   </main>
   <TheFooter />
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 import AppMenu from '@components/AppMenu.vue'
 import TheFooter from '@components/TheFooter.vue'
@@ -20,7 +20,6 @@ export default {
     const pages = ref([])
 
     store.dispatch('wp/fetchPagesData').then((pagesData) => {
-      // Now <router-view> can be mounted
       isDataLoaded.value = true
 
       // keep only allowed pages
@@ -30,24 +29,13 @@ export default {
 
       // Save to state.wp.navigation
       store.dispatch('wp/saveNavigation', pages.value)
-      // console.log(store.state.wp.navigation)
     })
 
     // fetch other data
     store.dispatch('wp/fetchCategoriesData').then((categoriesData) => {
       categoriesData.forEach(category => {
-        // console.log(category.name, category.id, category)
       })
     })
-
-    // store.dispatch('wp/fetchPostsData').then(() => {
-    //   console.log(store.state.wp.posts)
-    // })
-    // store.dispatch('wp/fetchMediaData').then(() => {
-    //   console.log(store.state.wp.media)
-    //   console.log(store.state.wp)
-    // })
-
     return { isDataLoaded, pages }
   },
 }
@@ -59,5 +47,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /* min-height: 100vh; */
   @apply w-full h-full top-0 left-0 p-0 m-0 relative;
+
+  .page {
+    /* @apply p-14; */
+  }
 }
 </style>
