@@ -5,7 +5,7 @@
   --contentPTop: 22rem;
   --trans: 0.4s;
   --transFast: 0.2s;
-  --cub: cubic-bezier(.01, .5, .75, 1);
+  --cub: cubic-bezier(0.01, 0.5, 0.75, 1);
 }
 
 @tailwind base;
@@ -41,7 +41,7 @@
   }
 
   section.container {
-    @apply min-h-screen;
+    /* @apply min-h-screen; */
   }
 
   .glow-fx {
@@ -81,6 +81,13 @@
 }
 
 @layer utilities {
+  .pge__overflow--hidden {
+    @apply overflow-hidden;
+    .page {
+      filter: blur(6px);
+    }
+  }
+
   /* ratio preservation utility class */
   .rationer {
     height: 0;
@@ -115,5 +122,4 @@
       clear: both;
     }
   } */
-
 }
