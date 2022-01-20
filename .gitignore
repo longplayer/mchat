@@ -6,4 +6,4 @@ dist-ssr
 *-lock.json
 .env
 _*/
-
+*.code-workspace
