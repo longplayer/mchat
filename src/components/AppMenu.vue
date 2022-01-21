@@ -35,6 +35,7 @@
       :key="page.id">
       <router-link
         class="nav__anchor"
+        @click="doClick"
         :to="{ name: 'home', hash: '#' + page.slug }">
           {{ page.title.rendered }}
       </router-link>
@@ -52,45 +53,54 @@ import bodyOverflow from '@helpers/bodyOverflow.js'
 
 export default {
   components: { CatLogoLines },
-    setup() {
-      const store = useStore()
-      // const route = useRoute()
-      const pages = computed(() => store.getters['wp/getNavigationData'])
-      const containerStatus = computed(() => `nav__container--${ isMenuOpen.value===true ? 'opened' : 'closed' }`)
-      const stickyStatus = computed(() => isSticky.value ? 'sticky-active' : '')
-      const pageOverflowStatus = computed(() => isMenuOpen.value && window.innerWidth < 768) // avoid window please
+  emits: ['selected-section'],
+  setup(props, { emit }) {
+    const store = useStore()
+    // const route = useRoute()
+    const pages = computed(() => store.getters['wp/getNavigationData'])
+    const containerStatus = computed(() => `nav__container--${ isMenuOpen.value===true ? 'opened' : 'closed' }`)
+    const stickyStatus = computed(() => isSticky.value ? 'sticky-active' : '')
+    const pageOverflowStatus = computed(() => isMenuOpen.value && window.innerWidth < 768) // avoid window please
 
-      const isMenuOpen = ref(false)
-      const isSticky = ref(false)
-      const stickyTriggerTop = 90
+    const isMenuOpen = ref(false)
+    const isSticky = ref(false)
+    const stickyTriggerTop = 90
 
-      function scrollStatusChecker() {
-        const scrollTop = document.scrollingElement.scrollTop
-        isSticky.value = scrollTop > stickyTriggerTop
-      }
+    function scrollStatusChecker() {
+      const scrollTop = document.scrollingElement.scrollTop
+      isSticky.value = scrollTop > stickyTriggerTop
+    }
 
-      function menuClose() {
-        isMenuOpen.value = false
-        bodyOverflow(pageOverflowStatus.value)
-      }
-      function menuToggle() {
-        isMenuOpen.value = !isMenuOpen.value
-        bodyOverflow(pageOverflowStatus.value)
-      }
+    function menuClose() {
+      isMenuOpen.value = false
+      bodyOverflow(pageOverflowStatus.value)
+    }
 
-      onMounted(() => {})
+    function menuToggle() {
+      isMenuOpen.value = !isMenuOpen.value
+      bodyOverflow(pageOverflowStatus.value)
+    }
 
-      return { 
-        pages, 
-        scrollStatusChecker, 
-        isSticky, 
-        isMenuOpen, 
-        containerStatus,
-        stickyStatus,
-        menuToggle,
-        menuClose,
-      }
-    },
+    function doClick(e) {
+      emit('selected-section', {e})
+      isMenuOpen.value = false
+      setTimeout(()=>{ bodyOverflow(pageOverflowStatus.value) }, 600)
+    }
+
+    onMounted(() => {})
+
+    return { 
+      pages, 
+      scrollStatusChecker, 
+      isSticky, 
+      isMenuOpen, 
+      containerStatus,
+      stickyStatus,
+      menuToggle,
+      menuClose,
+      doClick
+    }
+  },
 }
 </script>
 
@@ -158,50 +168,32 @@ export default {
 
     .icon-wrapper {
       @apply m-4 relative;
-      ::before { display: none; }
-
-      @screen md {
-        &::before {
-          content: '';
-          display: block;
-          background-color: var(--color-primary);
-          height: 2.25rem;
-          width: 2.25rem;
-          position: absolute;
-          z-index: -1;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%) scale(0, 1);
-          transform-origin: right;
-          transition: transform var(--base-duration) ease;
-        }
-      }
     }
 
     .label {
       position: absolute;
-      top:0;
-      left:0;
       transform: translate(3.5rem, 1rem);
-      @apply text-base lg:text-2xl;
-
-      &::before {
-        display: none;
-      }
+      @apply text-base top-0 left-0 lg:text-2xl;
 
       @screen md {
         @apply m-4;
         position: relative;
         transform: translate(0, 0);
+      }
+    }
 
-        &::before {
-          content: '';
-          z-index: -1;
-          transform: scale(0, 1);
-          transform-origin: left;
-          transition: transform var(--base-duration) ease;
-          @apply absolute top-0 left-0 block w-full h-full bg-primary;
-        }
+    &::before {
+      display: none;
+      @screen md {
+        content: '';
+        z-index: -1;
+        width: 80%;
+        height: 100%;
+        left: 10%;
+        transform: scale(0, .5);
+        transform-origin: left;
+        transition: transform var(--base-duration) ease;
+        @apply absolute top-0 block bg-primary mx-auto;
       }
     }
 
@@ -209,16 +201,8 @@ export default {
     &:active,
     &:focus {
       @screen md {
-        .icon-wrapper {
-          &::before {
-            transform: translate(-50%, -50%) scale(1, 1);
-          }
-        }
-
-        .label {
-          &::before {
-            transform: scale(1, 1);
-          }
+        &::before {
+          transform: scale(1, .5);
         }
       }
     }
@@ -357,33 +341,6 @@ export default {
 }
 
 /* utility class */
-.block-corners {
-
-  &::before,
-  &::after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    z-index: 10;
-    width: 2rem;
-    height: 2rem;
-  }
-
-  &::before {
-    top: 0;
-    left: 0;
-    border-top: .25rem solid var(--color-primary);
-    border-left: .25rem solid var(--color-primary);
-  }
-
-  &::after {
-    bottom: 0;
-    right: 0;
-    border-bottom: .25rem solid var(--color-primary);
-    border-right: .25rem solid var(--color-primary);
-    
-  }
-}
 
 @keyframes fadeIn {
   0% {
