@@ -46,31 +46,25 @@
 
   .glow-fx {
     &:hover {
-      box-shadow: 0 0 4px rgb(255 182 0 / 50%),
-                  0 0 16px rgb(255 182 0 / 50%);
+      box-shadow: 0 0 4px rgb(255 182 0 / 50%), 0 0 16px rgb(255 182 0 / 50%);
 
       @screen md {
-        box-shadow: 0 0 4px rgb(255 182 0 / 50%),
-                    0 0 24px rgb(255 182 0 / 50%);
+        box-shadow: 0 0 4px rgb(255 182 0 / 50%), 0 0 24px rgb(255 182 0 / 50%);
       }
 
       @screen xl {
-        box-shadow: 0 0 4px rgb(255 182 0 / 50%),
-                    0 0 32px rgb(255 182 0 / 50%);
+        box-shadow: 0 0 4px rgb(255 182 0 / 50%), 0 0 32px rgb(255 182 0 / 50%);
       }
     }
 
     &:focus-visible {
-      box-shadow: 0 0 4px rgb(255 182 0 / 50%),
-                  0 0 16px rgb(255 182 0 / 50%);
+      box-shadow: 0 0 4px rgb(255 182 0 / 50%), 0 0 16px rgb(255 182 0 / 50%);
 
       @screen md {
-        box-shadow: 0 0 4px rgb(255 182 0 / 50%),
-                    0 0 24px rgb(255 182 0 / 50%);
+        box-shadow: 0 0 4px rgb(255 182 0 / 50%), 0 0 24px rgb(255 182 0 / 50%);
       }
       @screen xl {
-        box-shadow: 0 0 4px rgb(255 182 0 / 50%),
-                    0 0 32px rgb(255 182 0 / 50%);
+        box-shadow: 0 0 4px rgb(255 182 0 / 50%), 0 0 32px rgb(255 182 0 / 50%);
       }
     }
   }
@@ -85,6 +79,55 @@
     @apply overflow-hidden;
     .page {
       filter: blur(6px);
+    }
+  }
+
+  /* animated underline utility */
+  .animated-underline {
+    text-decoration: none;
+    @apply relative overflow-hidden;
+
+    &::before {
+      content: '';
+      background-color: #000;
+      transform: translate(-100%, 0) scale(1, 0.05);
+      transform-origin: bottom left;
+      transition: transform 250ms ease-in;
+      @apply absolute top-0 left-0 w-full h-full;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      &::before {
+        transform: translate(0, 0) scale(1, 0.05);
+      }
+    }
+  }
+
+  .block-corners {
+    &::before,
+    &::after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      z-index: 10;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    &::before {
+      top: 0;
+      left: 0;
+      border-top: 0.25rem solid var(--color-primary);
+      border-left: 0.25rem solid var(--color-primary);
+    }
+
+    &::after {
+      bottom: 0;
+      right: 0;
+      border-bottom: 0.25rem solid var(--color-primary);
+      border-right: 0.25rem solid var(--color-primary);
     }
   }
 
