@@ -45,26 +45,31 @@
 </template>
 
 <script>
-import { computed, ref, onMounted } from 'vue'
+// https://v3.vuejs.org/guide/composition-api-setup.html#setup
+// https://v3.vuejs.org/api/computed-watch-api.html#watch
+// https://vueuse.org/core/useBreakpoints/
+import { computed, ref, onMounted, onBeforeUpdate, watch } from 'vue'
 import { useStore } from 'vuex'
-// import { useRoute } from 'vue-router'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import CatLogoLines from '@components/CatLogoLines.vue'
 import bodyOverflow from '@helpers/bodyOverflow.js'
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
 
 export default {
   components: { CatLogoLines },
   emits: ['selected-section'],
   setup(props, { emit }) {
     const store = useStore()
-    // const route = useRoute()
     const pages = computed(() => store.getters['wp/getNavigationData'])
     const containerStatus = computed(() => `nav__container--${ isMenuOpen.value===true ? 'opened' : 'closed' }`)
     const stickyStatus = computed(() => isSticky.value ? 'sticky-active' : '')
-    const pageOverflowStatus = computed(() => isMenuOpen.value && window.innerWidth < 768) // avoid window please
+    const pageOverflowStatus = computed(() => isMenuOpen.value && breakpoints.smaller('md').value) // avoid window please
 
     const isMenuOpen = ref(false)
     const isSticky = ref(false)
     const stickyTriggerTop = 90
+    const isGreaterThanMD = breakpoints.greater('md')
 
     function scrollStatusChecker() {
       const scrollTop = document.scrollingElement.scrollTop
@@ -87,7 +92,22 @@ export default {
       setTimeout(()=>{ bodyOverflow(pageOverflowStatus.value) }, 600)
     }
 
+    watch(isGreaterThanMD, (isGreaterThanMD) => {
+      // apply overflow on smaller breapoint than MD
+      // And remove overflow on greater breakpoint
+      // ONLY if menu is open
+      // This fix inconsistencies when the viewport is resisez
+      // and the menu toggle between mobile/desktop setup
+      if (isMenuOpen.value) {
+        // Equal than this condition:
+        // if (isGreaterThanMD) bodyOverflow(false)
+        // else bodyOverflow(true)
+        bodyOverflow(!isGreaterThanMD)
+      }
+    })
+
     onMounted(() => {})
+    onBeforeUpdate(() => {})
 
     return { 
       pages, 
