@@ -1,13 +1,14 @@
 <template>
     <div class="icon-wrapper">
       <svg class='icon' :width="width" :height="height">
-        <use v-bind="{'xlink:href':'/app-sprite.svg#' + name}"/>
+        <use v-bind="{'xlink:href': spritePath + '#' + name}"/>
       </svg>
       <slot></slot>
     </div>
 </template>
 
 <script>
+import { computed } from 'vue'
 export default {
   name: 'Icon',
   props: {
@@ -20,7 +21,13 @@ export default {
       type: [Number, String],
       default: 24
     }
+  },
+  setup(){
+    // https://vitejs.dev/guide/build.html#public-base-path
+    const spritePath = computed(() => `${import.meta.env.BASE_URL}app-sprite.svg`)
+    return { spritePath }
   }
+
 }
 </script>
 

@@ -2,25 +2,19 @@ import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store/index'
 import { applyMetaTitleSimple } from './metaguards'
 import Home from '@pages/Home.vue'
-import Playground from '@pages/Playground.vue'
 
-// todo: meta.title not work - fix this
+const baseURL = import.meta.env.BASE_URL
 const routes = [
   {
-    path: '/',
+    path: baseURL,
     name: 'home',
     component: Home,
     meta: { title: store.state.appName },
   },
-  {
-    path: '/testycool',
-    name: 'playground',
-    component: Playground,
-    meta: { title: 'Playground a.k.a. the test page' },
-  },
 ]
 
 const router = createRouter({
+  base: baseURL,
   history: createWebHistory(),
   scrollBehavior: function (to, from, savedPosition) {
     // console.log(to, from, savedPosition)
