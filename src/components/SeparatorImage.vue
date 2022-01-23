@@ -13,7 +13,7 @@
     </template>
     <template v-if="placement === 'diagonale'">
       <div class="separator__inner">
-        <img class="separator__image" :src="image">
+        <img class="separator__image" :src="image" alt="Section separator">
       </div>
     </template>
   </div>

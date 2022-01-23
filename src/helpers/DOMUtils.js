@@ -9,7 +9,7 @@ const anchorAddAttributes = (htmlCollection) => {
       // check if the current anchor is an http* link
       if (element.href.slice(0, 4).toUpperCase() === 'HTTP') {
         element.target = '_blank'
-        element.rel = 'noopener'
+        element.rel = 'noopener noreferrer'
       }
     }
   }

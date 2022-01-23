@@ -16,6 +16,7 @@
 
     <router-link 
       class="nav__logo w-full"
+      title="Home"
       :to="{ name: 'home' }">
       <CatLogoLines />
     </router-link>

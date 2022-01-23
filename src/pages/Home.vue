@@ -136,19 +136,20 @@ export default {
     function contactContentCleaner(elementRef) {
       if (elementRef === null) return
 
-      const indexToExclude = [0]
+      const indexToExclude = [0] // !! this depends on the content and could change at any time
       const collection = Array.from(elementRef.querySelector('.wp-block-column').children)
 
       // Remove the original content
       clearChildren(elementRef)
 
       for (const [i, el] of collection.entries()) {
+        let newTag = document.createElement('p'); // replace original tags by <p>
+
         if (!indexToExclude.includes(i)) {
           // add new attribute to the anchor tags
           anchorAddAttributes (el.querySelectorAll('a'))
-
-          // put new modified element to our final container
-          elementRef.append(el)
+          newTag.innerHTML = el.innerHTML.replace('&nbsp;', '')
+          elementRef.append(newTag)
         }
       }
     }
@@ -196,7 +197,7 @@ export default {
 
     @apply flex flex-wrap justify-center items-center
     py-20 sm:py-32 md:py-40 lg:py-80 
-    px-14 lg:px-0;
+    px-14;
     
     .section--inner {
       @apply flex-auto m-auto max-w-full;
