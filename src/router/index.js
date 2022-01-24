@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store/index'
 import { applyMetaTitleSimple } from './metaguards'
-import Home from '@pages/Home.vue'
+import Home from '@pages/PageHome.vue'
 
 const baseURL = import.meta.env.BASE_URL
 const routes = [
@@ -16,7 +16,7 @@ const routes = [
 const router = createRouter({
   base: baseURL,
   history: createWebHistory(),
-  scrollBehavior: function (to, from, savedPosition) {
+  scrollBehavior: function (to) {
     // console.log(to, from, savedPosition)
     if (to.hash) {
       return {

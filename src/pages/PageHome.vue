@@ -1,17 +1,24 @@
 <template>
   <section class="hero">
     <div class="hero-item">
-      <CatLogoAnimated size="xxl"/>
-      <BaseButton variant="secondary" tag="router-link" :to="{ name: 'home', hash: '#actus' }">
+      <CatLogoAnimated size="xxl" />
+      <BaseButton
+        variant="secondary"
+        tag="router-link"
+        :to="{ name: 'home', hash: '#actus' }"
+      >
         Bienvenue
       </BaseButton>
     </div>
   </section>
-  <section id="accueil" class="intro container">
+  <section
+    id="accueil"
+    class="intro container"
+  >
     <div
       ref="introElement"
-      v-html="introData"
       class="section--inner text-center"
+      v-html="introData"
     ></div>
   </section>
   <section class="separator">
@@ -20,11 +27,14 @@
       variant="primary"
     />
   </section>
-  <section id="actus" class="news container">
+  <section
+    id="actus"
+    class="news container"
+  >
     <div class="section--inner">
       <PostList
         title="Actus"
-        :dataSource="newsPageData"
+        :data-source="newsPageData"
       />
     </div>
   </section>
@@ -35,11 +45,14 @@
       placement="diagonale"
     />
   </section>
-  <section id="expos" class="events container">
+  <section
+    id="expos"
+    class="events container"
+  >
     <div class="section--inner">
       <PostList
         title="Expos"
-        :dataSource="eventPageData"
+        :data-source="eventPageData"
       />
     </div>
   </section>
@@ -49,14 +62,21 @@
       variant="primary"
     />  
   </section>
-  <section id="wall" class="wall container">
+  <section
+    id="wall"
+    class="wall container"
+  > 
     <div class="section--inner">
       <WallImages
         title="Wall"
-        :dataSource="wallPageData" />
+        :data-source="wallPageData"
+      />
     </div>
   </section>
-  <section id="contact" class="contact container">
+  <section
+    id="contact"
+    class="contact container"
+  >
     <div class="section--inner">
       <h1>Contact</h1>
       <div

@@ -32,10 +32,10 @@ export default {
     })
 
     // fetch other data
-    store.dispatch('wp/fetchCategoriesData').then((categoriesData) => {
-      categoriesData.forEach(category => {
-      })
-    })
+    // store.dispatch('wp/fetchCategoriesData').then((categoriesData) => {
+    //   categoriesData.forEach(category => { console.log(category)})
+    // })
+  
     return { isDataLoaded, pages }
   },
 }
