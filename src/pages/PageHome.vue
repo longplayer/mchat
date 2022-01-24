@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <section class="hero">
     <div class="hero-item">
@@ -18,7 +19,7 @@
     <div
       ref="introElement"
       class="section--inner text-center"
-      v-html="introData"
+      v-html="introHtml"
     ></div>
   </section>
   <section class="separator">
@@ -82,7 +83,7 @@
       <div
         ref="contactElement"
         class="content"
-        v-html="contactData"
+        v-html="contactHtml"
       ></div>
     </div>
   </section>
@@ -92,6 +93,7 @@
 import { computed, ref, onBeforeUpdate, onMounted, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { anchorAddAttributes, clearChildren, searchTagOnString, stringSanitizer } from '@helpers/DOMUtils'
+import sanitizeHtml from 'sanitize-html'
 import CatLogoAnimated from '@components/CatLogoAnimated.vue'
 import SeparatorImage from '@components/SeparatorImage.vue'
 import PostList from '@components/PostList.vue'
@@ -110,9 +112,9 @@ export default {
     const dataLimit = 5
     const isDataCleaned = ref(false)
     // API data
-    const introData = computed(() => store.state.wp.navigation[0].content.rendered)
+    const introHtml = computed(() => store.state.wp.navigation.filter(page => page.slug === 'accueil')[0].content.rendered)
     const wallData = computed(() => store.state.wp.navigation.filter(page => page.slug === 'wall')[0].content.rendered)
-    const contactData = computed(() => store.state.wp.navigation.filter(page => page.slug === 'contact')[0].content.rendered)
+    const contactHtml = computed(() => store.state.wp.navigation.filter(page => page.slug === 'contact')[0].content.rendered)
     // DOM element ref
     const introElement = ref(null) // dom element
     const contactElement = ref(null)
@@ -157,7 +159,7 @@ export default {
       if (elementRef === null) return
 
       const indexToExclude = [0] // !! this depends on the content and could change at any time
-      const collection = Array.from(elementRef.querySelector('.wp-block-column').children)
+      const collection = Array.from(elementRef.children[0].children[0].children)
 
       // Remove the original content
       clearChildren(elementRef)
@@ -176,12 +178,12 @@ export default {
 
     return {
       separatorImages,
-      introData,
+      introHtml: sanitizeHtml(introHtml.value),
       introElement,
       newsPageData,
       eventPageData,
       wallPageData,
-      contactData,
+      contactHtml: sanitizeHtml(contactHtml.value),
       contactElement,
     }
   },
