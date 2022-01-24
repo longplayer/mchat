@@ -5,6 +5,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
+    "build:serve": "npm run build && npm run serve",
     "reinstall": "rm package-lock.json && rm -rf node_modules/ && npm install",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
