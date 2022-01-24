@@ -2,7 +2,7 @@
   <section class="hero">
     <div class="hero-item">
       <CatLogoAnimated size="xxl"/>
-      <BaseButton variant="secondary">
+      <BaseButton variant="secondary" tag="router-link" :to="{ name: 'home', hash: '#actus' }">
         Bienvenue
       </BaseButton>
     </div>
@@ -182,6 +182,8 @@ export default {
       }
 
       & .btn {
+        display: inline-block;
+        padding: 1rem 4rem;
         @apply mx-auto mt-8 lg:mt-16 xl:mt-24;
       }
     }
