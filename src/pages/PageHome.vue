@@ -166,14 +166,22 @@ export default {
 
       for (const [i, el] of collection.entries()) {
         let newTag = document.createElement('p'); // replace original tags by <p>
-
+        let links = []
         if (!indexToExclude.includes(i)) {
+          links = el.querySelectorAll('a')
           // add new attribute to the anchor tags
-          anchorAddAttributes (el.querySelectorAll('a'))
+          anchorAddAttributes (links)
+          links = addClassToCollection(links, 'animated-underline')
           newTag.innerHTML = el.innerHTML.replace('&nbsp;', '')
           elementRef.append(newTag)
         }
       }
+    }
+
+    function addClassToCollection( collection, classValue ) {
+      return collection.forEach(element => {
+        element.classList.add(classValue)
+      })
     }
 
     return {

@@ -85,7 +85,7 @@
   /* animated underline utility */
   .animated-underline {
     text-decoration: none;
-    @apply relative overflow-hidden;
+    @apply relative inline-block align-middle overflow-hidden;
 
     &::before {
       content: '';

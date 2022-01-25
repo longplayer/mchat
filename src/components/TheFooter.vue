@@ -2,7 +2,7 @@
   <!-- the comment -->
   <footer>
     <CatLogoColored size="md" />
-    <nav class="footer-navigation">
+    <nav class="footer__nav">
       <ul>
         <li v-for="page in pages" :key="page.id">
           <router-link :to="{ name: 'home', hash: '#' + page.slug }" class="animated-underline">
@@ -11,9 +11,9 @@
         </li>
       </ul>
     </nav>
-    <div class="footer-legal">
-      <p><strong>Copyright</strong></p>
-    </div>
+    <small class="footer__note">
+      Vistit <a href="https://monsieurchat.fr/" class="animated-underline" target="_blank" rel="noopener noreferrer">Monsieur Chat's website</a> | Website made with 🤍 by <a href="https://github.com/longplayer" class="animated-underline" target="_blank" rel="noopener noreferrer">longplayer</a>
+    </small>
   </footer>
 </template>
 
@@ -33,10 +33,10 @@ export default {
 
 <style lang="postcss" scoped>
 footer {
-  @apply flex relative bg-primary border-t-4 border-secondary 
-    bottom-0 p-8 pt-16 md:pt-8 md:pl-36 w-full h-auto md:h-32 ;
+  @apply flex flex-wrap relative w-full h-auto md:h-32
+    bg-primary border-t-4 border-secondary;
 
-  & .cat-container {
+  .cat-container {
     transform: translate(-1rem, -50%);
     @apply absolute top-0 right-0;
     @screen sm {
@@ -46,55 +46,53 @@ footer {
     }
   }
 
-  & .footer-navigation {
-    /* columns: 2; */
-    flex: 1 1 100%;
+  .footer__nav {
+    flex: 0 1 auto;
     height: 100%;
-    margin: auto;
+    margin: auto auto 0 0;
+    @apply p-8 pt-16 md:pt-8 md:pl-36;
+    @screen sm {
+      flex-grow: 1;
+    }
 
-    & ul {
-      columns: 2;
-      @apply w-full h-full;
-      @screen sm {
-        columns: unset;
-        margin-right: 40%;
-        @apply flex flex-wrap justify-between content-center;
+    ul {
+      @apply flex flex-wrap w-full h-full
+            sm:justify-between sm:content-center;
+
+      li {
+        line-height: 1.5rem;
+        height: 1.5rem;
+        margin: auto 0;
+        flex: 1 1 50%;
+        @apply inline-block;
+
+        &:nth-child(1) { order: 1; }
+        &:nth-child(2) { order: 3; }
+        &:nth-child(3) { order: 5; }
+        &:nth-child(4) { order: 2; }
+        &:nth-child(5) { order: 4; }
+
+        @screen sm {
+          text-align: center;
+          flex-basis: auto;
+
+          &:nth-child(1) { order: inherit; }
+          &:nth-child(2) { order: inherit; }
+          &:nth-child(3) { order: inherit; }
+          &:nth-child(4) { order: inherit; }
+          &:nth-child(5) { order: inherit; }
+        }
+
+        a {
+          @apply inline-block px-0;
+        }
       }
     }
-
-    & li {
-      line-height: 1.5rem;
-      height: 1.5rem;
-      margin: auto 0;
-      flex: 1 1 50%;
-      @apply inline-block;
-      @screen sm {
-        flex: 1 1 auto;
-      }
-    }
-
-    & a {
-      @apply inline-block px-0;
-    }
-
   }
 
-  & .footer-legal {
-    display: none;
-    position: absolute;
-    bottom: .25rem;
-    right: .25rem;
-    @screen sm {
-      right: 1rem;
-      bottom: 2rem;
-    }
-    @screen md {
-      flex: 0 1 auto;
-      margin: auto;
-      position: relative;
-      bottom: inherit;
-      right: inherit;
-    }
+  .footer__note {
+    flex: 1 1 100%;
+    @apply p-2 text-center text-white bg-secondary;
   }
 }
 </style>
