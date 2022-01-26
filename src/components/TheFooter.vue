@@ -5,14 +5,14 @@
     <nav class="footer__nav">
       <ul>
         <li v-for="page in pages" :key="page.id">
-          <router-link :to="{ name: 'home', hash: '#' + page.slug }" class="animated-underline">
+          <router-link :to="{ name: 'home', hash: '#' + page.slug }" class="animated-underline" :title="page.title.rendered">
             {{ page.title.rendered }}
           </router-link>
         </li>
       </ul>
     </nav>
     <small class="footer__note">
-      Vistit <a href="https://monsieurchat.fr/" class="animated-underline" target="_blank" rel="noopener noreferrer">Monsieur Chat's website</a> | Website made with 🤍 by <a href="https://github.com/longplayer" class="animated-underline" target="_blank" rel="noopener noreferrer">longplayer</a>
+      Vistit <a href="https://monsieurchat.fr/" class="animated-underline" target="_blank" rel="noopener noreferrer" title="Visit original Monsieur Chat's website">Monsieur Chat's website</a> | Website made with 🤍 by <a href="https://github.com/longplayer" class="animated-underline" target="_blank" rel="noopener noreferrer" title="Visit longplayer on Github">longplayer</a>
     </small>
   </footer>
 </template>
